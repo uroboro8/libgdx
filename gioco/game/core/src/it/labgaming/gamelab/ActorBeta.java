@@ -38,6 +38,7 @@ public class ActorBeta extends Actor
         return rectangle;
     }
 
+
     public boolean overlaps(ActorBeta other)
     {
         return this.getRectangle().overlaps( other.getRectangle() );

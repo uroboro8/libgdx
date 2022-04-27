@@ -21,22 +21,12 @@ public class Player extends BaseActor
     {
         super(x,y,s);
 
-        /*String[] filenames =
-                {"turtle-1.png", "turtle-2.png", "turtle-3.png",
-                        "turtle-4.png", "turtle-5.png", "turtle-6.png"}; */
-
-        String[] filenames = {"a1.png","a2.png","a3.png"};
-
+        //String[] filenames = {"a1.png","a2.png","a3.png"};
+        String[] filenames = {"a1-down.png","a2-down.png","a3-down.png"};
         loadAnimationFromFiles(filenames, 0.1f, true);
-        //End 2.0.
-
-
 
         setDirection(Player.IDLE);
-
-        setAcceleration(400);
-        setMaxSpeed(200);
-        setDeceleration(200);
+        setBoundaryPolygon(8);
     }
 
 
@@ -68,7 +58,7 @@ public class Player extends BaseActor
         else if(direction== Player.RIGHT)
         {
             this.moveBy(speed, 0);
-            //setDirection(Turtle.IDLE);
+
             String[] filenames = {"a1.png","a2.png","a3.png"};
             Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
             setAnimation(anim);
@@ -79,31 +69,10 @@ public class Player extends BaseActor
             String[] filenames = {"a1-down.png","a2-down.png","a3-down.png"};
             Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
             setAnimation(anim);
-            //setDirection(Turtle.IDLE);
+
         }
-/*
-        if(direction==Turtle.LEFT) {
-           accelerateAtAngle(180);
-            //accelerateAtAngle(90);
-           /* String[] filenames = {"a1-left.png","a2-left.png","a3-left.png"};
-            Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
-            setAnimation(anim); */
-  /*      }
-        else if(direction==Turtle.TOP)
-            accelerateAtAngle(90);
-        else if(direction==Turtle.RIGHT) {
-            accelerateAtAngle(0);
-        }
-        else if(direction==Turtle.BOTTOM)
-            accelerateAtAngle(270);
-
-        applyPhysics(dt);
-
-        setAnimationPaused( !isMoving() );
-
-        if ( getSpeed() > 0 )
-            setRotation( getMotionAngle() );
-
-        */
+        boundToWorld();
+        alignCamera();
     }
+
 }

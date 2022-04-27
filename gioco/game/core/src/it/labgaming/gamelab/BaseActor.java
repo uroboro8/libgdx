@@ -2,16 +2,22 @@ package it.labgaming.gamelab;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 public class BaseActor extends Actor {
 
@@ -26,6 +32,15 @@ public class BaseActor extends Actor {
     private float maxSpeed;
     private float deceleration;
 
+    private Polygon boundaryPolygon;
+
+    private static Rectangle worldBounds;
+
+    private float spawnX;
+    private float spawnY;
+    private float waypointX;
+    private float waypointY;
+
     public BaseActor(float x, float y, Stage s)
     {
 
@@ -33,33 +48,154 @@ public class BaseActor extends Actor {
 
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+        setSpawnPoint(x,y);
         setPosition(x,y);
         s.addActor(this);
 
-        //Begin 1.1.
         animation = null;
         elapsedTime = 0;
         animationPaused = false;
-        //End 1.1.
 
         velocityVec = new Vector2(0,0);
-        //End 2.6.
 
-
-
-        //Begin 2.8.
         accelerationVec = new Vector2(0,0);
         acceleration = 0;
-        //End 2.8.
 
 
-
-        //Begin 3.1.
         maxSpeed = 1000;
         deceleration = 0;
 
     }
 
+    private void setSpawnPoint(float x,float y){
+        this.spawnX = x;
+        this.spawnY = y;
+    }
+
+    public float getSpawnX(){
+        return this.spawnX;
+    }
+
+    public float getSpawnY(){
+        return this.spawnY;
+    }
+
+    public void setWaypoint(float x,float y){
+        this.waypointX = x;
+        this.waypointY = y;
+    }
+
+    public float getWaypointX(){
+        return this.waypointX;
+    }
+
+    public float getWaypointY(){
+        return this.waypointY;
+    }
+
+    public Vector2 preventOverlap(BaseActor other)
+    {
+        Polygon poly1 = this.getBoundaryPolygon();
+        Polygon poly2 = other.getBoundaryPolygon();
+
+        //Initial test to improve performance
+        if (!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle()))
+            return null;
+
+        Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
+        boolean polygonOverlap = Intersector.overlapConvexPolygons(poly1, poly2, mtv);
+
+        if (!polygonOverlap)
+            return null;
+
+        this.moveBy(mtv.normal.x * mtv.depth, mtv.normal.y * mtv.depth);
+
+        return mtv.normal;
+    }
+
+    public void setBoundaryRectangle()
+    {
+        float w = getWidth();
+        float h = getHeight();
+        float[] vertices = {0,0, w,0, w,h, 0,h};
+        boundaryPolygon = new Polygon(vertices);
+    }
+    //End 1.1.
+
+
+
+    //Begin 1.3.
+    public void setBoundaryPolygon(int numSides)
+    {
+        float w = getWidth();
+        float h = getHeight();
+        float angleDiv = 6.28f / numSides;
+        float[] vertices = new float[2*numSides];
+        for (int i = 0; i < numSides; i++)
+        {
+            float angle = i * angleDiv;
+
+            //x-coordinate.
+            vertices[2*i] = w/2 * MathUtils.cos(angle) + w/2; //1
+            //y-coordinate.
+            vertices[2*i+1] = h/2 * MathUtils.sin(angle) + h/2; //0
+        }
+        boundaryPolygon = new Polygon(vertices);
+    }
+
+    //codeshare.io/AdOnWl
+
+    public Polygon getBoundaryPolygon()
+    {
+        boundaryPolygon.setPosition( getX(), getY() );
+        boundaryPolygon.setOrigin( getOriginX(), getOriginY() );
+        boundaryPolygon.setRotation ( getRotation() );
+        boundaryPolygon.setScale( getScaleX(), getScaleY() );
+
+        return boundaryPolygon;
+    }
+    //End 1.3.
+
+
+
+    //Begin 1.5.
+    public boolean overlaps(BaseActor other)
+    {
+        //Gdx.app.log("#INFO", "overlaps().");
+
+        Polygon poly1 = this.getBoundaryPolygon();
+        Polygon poly2 = other.getBoundaryPolygon();
+
+        //Gdx.app.log("#INFO", String.valueOf(poly1));
+        //Gdx.app.log("#INFO", String.valueOf(poly2));
+
+        //Initial test to improve performance.
+        if(!poly1.getBoundingRectangle().overlaps(poly2.getBoundingRectangle()) ) {
+            return false;
+        }
+
+        return Intersector.overlapConvexPolygons( poly1, poly2 );
+    }
+    //End 1.5.
+
+
+
+    //Begin 1.6.
+    public void centerAtPosition(float x, float y)
+    {
+        setPosition( x - getWidth()/2, y - getHeight()/2 );
+    }
+
+    public void centerAtActor(BaseActor other)
+    {
+        centerAtPosition( other.getX() + other.getWidth()/2 ,
+                other.getY() + other.getHeight()/2 );
+    }
+
+    public void setOpacity(float opacity) {
+        this.getColor().a = opacity;
+    }
+    //End 1.6.
     public void setAnimation(Animation<TextureRegion> anim)
     {
         animation = anim;
@@ -68,6 +204,9 @@ public class BaseActor extends Actor {
         float h = tr.getRegionHeight();
         setSize( w, h );
         setOrigin( w/2, h/2 );
+
+        if(boundaryPolygon == null)
+            setBoundaryRectangle();
     }
 
     public void setAnimationPaused(boolean pause)
@@ -242,6 +381,81 @@ public class BaseActor extends Actor {
 
         //Reset acceleration.
         accelerationVec.set(0,0);
+    }
+
+    public void alignCamera()
+    {
+        Camera cam = this.getStage().getCamera();
+        //Viewport v = this.getStage().getViewport();
+
+        //Center camera on actor.
+        cam.position.set( this.getX() + this.getOriginX(),
+                this.getY() + this.getOriginY(), 0 );
+
+        //Bound camera to layout.
+        cam.position.x = MathUtils.clamp(cam.position.x,
+                cam.viewportWidth/2, worldBounds.width - cam.viewportWidth/2);
+        cam.position.y = MathUtils.clamp(cam.position.y,
+                cam.viewportHeight/2, worldBounds.height - cam.viewportHeight/2);
+        cam.update();
+    }
+
+    public static void setWorldBounds(float width,float height){
+        worldBounds = new Rectangle(0,0,width,height);
+
+    }
+
+    public static void setWorldBounds(BaseActor ba){
+        setWorldBounds(ba.getWidth(),ba.getHeight());
+    }
+
+    public void boundToWorld(){
+        if(getX() < 0)
+            setX(0);
+        if(getX() + getWidth() > worldBounds.width)
+            setX(worldBounds.width - getWidth());
+
+        if(getY() < 0)
+            setY(0);
+        if(getY() + getHeight() > worldBounds.height)
+            setY(worldBounds.height - getHeight());
+    }
+
+    public static ArrayList<BaseActor> getList(Stage stage, String className)
+    {
+        ArrayList<BaseActor> list = new ArrayList<BaseActor>();
+
+        className="it.labgaming.gamelab."+className;
+        //Gdx.app.log("#CLASSNAME", className);
+        Class theClass = null;
+
+        try
+        {
+            theClass = Class.forName(className);
+        }
+        catch(Exception error)
+        {
+            Gdx.app.log("#ERRORE", error.toString());
+
+            error.printStackTrace();
+        }
+
+        //Gdx.app.log("#CLASS", theClass.toString());
+        for(Actor a : stage.getActors())
+        {
+            if( theClass.isInstance( a ) ) {
+                //Gdx.app.log("#CLASS", theClass.toString());
+                //Gdx.app.log("#ACTOR", a.toString());
+                list.add((BaseActor) a);
+            }
+        }
+
+        return list;
+    }
+
+    public static int count(Stage stage, String className)
+    {
+        return getList(stage, className).size();
     }
 
 }

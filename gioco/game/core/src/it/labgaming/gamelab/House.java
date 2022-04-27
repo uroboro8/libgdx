@@ -11,8 +11,7 @@ public class House extends BaseActor
     {
         super(x, y, s);
         loadTexture("house.png");
-       /* Action spin = Actions.rotateBy(30, 1);
-        this.addAction( Actions.forever(spin) );*/
+        setBoundaryPolygon(8);
     }
 }
 

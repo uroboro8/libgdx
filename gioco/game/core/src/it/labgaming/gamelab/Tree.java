@@ -8,7 +8,6 @@ public class Tree extends BaseActor{
     {
         super(x, y, s);
         loadTexture("tree.png");
-       /* Action spin = Actions.rotateBy(30, 1);
-        this.addAction( Actions.forever(spin) );*/
+        setBoundaryPolygon(8);
     }
 }
