@@ -17,6 +17,8 @@ public class Player extends BaseActor
     private int direction=0;
     private int speed=3;
 
+    private int life = 4;
+
     public Player(float x, float y, Stage s)
     {
         super(x,y,s);
@@ -29,6 +31,9 @@ public class Player extends BaseActor
         setBoundaryPolygon(8);
     }
 
+    public int getDirection(){
+        return this.direction;
+    }
 
     public void setDirection(int d)
     {
@@ -75,4 +80,11 @@ public class Player extends BaseActor
         alignCamera();
     }
 
+    public void hit(){
+        this.life -=1;
+    }
+
+    public int getLife() {
+        return life;
+    }
 }

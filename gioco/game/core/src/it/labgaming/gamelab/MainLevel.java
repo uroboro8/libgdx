@@ -7,7 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import java.util.ArrayList;
 
 public class MainLevel extends BaseScreen{
 
@@ -19,6 +22,8 @@ public class MainLevel extends BaseScreen{
     private ImageButton buttonLeft;
     private ImageButton buttonTop;
     private ImageButton buttonBottom;
+
+    private ArrayList<Heart> hearts;
 
     @Override
     public void initialize()
@@ -104,6 +109,11 @@ public class MainLevel extends BaseScreen{
             }
         });
 
+        PlayerUI playerUI = new PlayerUI(0,Gdx.graphics.getHeight()-150,uiStage);
+
+        Heart heart1 = new Heart(180,Gdx.graphics.getHeight()-110,uiStage);
+
+
         uiStage.addActor(buttonRight);
         uiStage.addActor(buttonLeft);
         uiStage.addActor(buttonTop);
@@ -122,6 +132,8 @@ public class MainLevel extends BaseScreen{
         new Tree(500,Gdx.graphics.getHeight()-300,mainStage);
 
         new Dog(500,500,mainStage);
+
+        new Cinghiale(1300,1200,mainStage);
 
         new Food(1000,1000,mainStage);
         new Food(1000,1500,mainStage);
@@ -169,6 +181,27 @@ public class MainLevel extends BaseScreen{
             }
         }
 
+        for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
+            Cinghiale cinghiale = (Cinghiale) cinghialeActor;
+            player.preventOverlap(cinghiale);
+            if(cinghiale.getX() == cinghiale.getSpawnX() + 100 && cinghiale.getY() == cinghiale.getSpawnY()) {
+                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
+                cinghiale.setDirection(1);
+            }
+            else if(cinghiale.getX() == cinghiale.getWaypointX() && cinghiale.getY() == cinghiale.getWaypointY() - 100){
+                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
+                cinghiale.setDirection(2);
+            }
+            else if(cinghiale.getX() == cinghiale.getWaypointX() - 100 && cinghiale.getY() == cinghiale.getWaypointY()){
+                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
+                cinghiale.setDirection(3);
+            }
+            else if(cinghiale.getX() == cinghiale.getSpawnX() && cinghiale.getY() == cinghiale.getSpawnY()){
+                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
+                cinghiale.setDirection(0);
+            }
+        }
+
         for (BaseActor foodActor : BaseActor.getList(mainStage, "Food")) {
             Food food = (Food) foodActor;
 
@@ -179,14 +212,37 @@ public class MainLevel extends BaseScreen{
             }
         }
 
+        for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
+            Cinghiale cinghiale = (Cinghiale) cinghialeActor;
+
+            if (player.overlaps(cinghiale) || cinghiale.overlaps(player)) {
+                player.preventOverlap(cinghiale);
+                cinghiale.preventOverlap(player);
+
+                if(player.getDirection() == Player.RIGHT) {
+                    player.moveBy(-100, 0);
+                }
+                else if(player.getDirection() == Player.LEFT)
+                    player.moveBy(200,0);
+                else if(player.getDirection() == Player.TOP)
+                    player.moveBy(0,-200);
+                else if(player.getDirection() == Player.BOTTOM)
+                    player.moveBy(0,200);
+
+                player.hit();
+                hearts.get(hearts.size() - 1).removeHeart();
+                hearts.remove(hearts.size() - 1);
+            }
+        }
+
         if (BaseActor.count(mainStage, "Food") == 0 && !win) {
             win = true;
-            BaseActor youWinMessage = new BaseActor(0, 0, mainStage);
-            youWinMessage.loadTexture("you-win.png");
-            youWinMessage.centerAtActor(player);
-            youWinMessage.setOpacity(0);
-            youWinMessage.addAction(Actions.delay(1));
-            youWinMessage.addAction(Actions.after(Actions.fadeIn(1)));
+            GameManager.setActiveScreen(new YouWinScreen());
+        }
+
+        if (BaseActor.count(uiStage, "Heart") == 0) {
+            //win = true;
+            GameManager.setActiveScreen(new GameOverScreen());
         }
     }
 

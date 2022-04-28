@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class MenuScreen extends BaseScreen {
+public class YouWinScreen extends BaseScreen{
 
     private boolean isFirstTime;
     private ImageButton button;
@@ -17,12 +17,12 @@ public class MenuScreen extends BaseScreen {
         Gdx.input.setInputProcessor(uiStage);
         isFirstTime=false;
         BaseActor background = new BaseActor(0,0,mainStage);
-        background.loadTexture("menu-background.png");
+        background.loadTexture("you-win.png");
         background.setSize(mainStage.getWidth(), mainStage.getHeight());
 
         button = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("start.png"))));
-       // button.setSize(1000,800);
-        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth(),Gdx.graphics.getHeight()/2 - button.getHeight());
+        //button.setSize(1000,800);
+        button.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         button.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -43,7 +43,7 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void update(float dt) {
         if(isFirstTime)
-            GameManager.setActiveScreen( new MainLevel() );
+            GameManager.setActiveScreen( new MenuScreen() );
     }
 
     private TextureRegionDrawable textureToDrawable(Texture buttonTexture){
