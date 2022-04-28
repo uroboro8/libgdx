@@ -11,19 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class GameOverScreen extends BaseScreen{
 
     private boolean isFirstTime;
-    private ImageButton button;
 
     public void initialize(){
-        Gdx.input.setInputProcessor(uiStage);
+        Gdx.input.setInputProcessor(mainStage);
         isFirstTime=false;
         BaseActor background = new BaseActor(0,0,mainStage);
         background.loadTexture("GameOver.png");
         background.setSize(mainStage.getWidth(), mainStage.getHeight());
 
-        button = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("start.png"))));
-        //button.setSize(1000,800);
-        button.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
-        button.addListener(new InputListener(){
+        background.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
@@ -37,7 +33,6 @@ public class GameOverScreen extends BaseScreen{
             }
         });
 
-        uiStage.addActor(button);
     }
 
     @Override
@@ -46,9 +41,4 @@ public class GameOverScreen extends BaseScreen{
             GameManager.setActiveScreen( new MenuScreen() );
     }
 
-    private TextureRegionDrawable textureToDrawable(Texture buttonTexture){
-        TextureRegion buttonTextureRegion = new TextureRegion(buttonTexture);
-        TextureRegionDrawable buttonRegionDrawable = new TextureRegionDrawable(buttonTextureRegion);
-        return buttonRegionDrawable;
-    }
 }

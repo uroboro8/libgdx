@@ -36,28 +36,26 @@ public class Dog extends  BaseActor {
     public void act(float dt) {
         super.act(dt);
 
-        if(direction == 0) {
+        if(direction == Dog.RIGHT) {
             anim = loadAnimationFromFiles(right, 0.1f, true);
             setAnimation(anim);
             this.moveBy(speed,0);
         }
 
-        if(direction == 1) {
+        if(direction == Dog.BOTTOM) {
             anim = loadAnimationFromFiles(bottom, 0.1f, true);
             setAnimation(anim);
             this.moveBy(0,-speed);
 
         }
-        if(direction == 2) {
-
+        if(direction == Dog.LEFT) {
             anim = loadAnimationFromFiles(left, 0.1f, true);
             setAnimation(anim);
             this.moveBy(-speed,0);
 
         }
 
-        if(direction == 3) {
-
+        if(direction == Dog.TOP) {
             anim = loadAnimationFromFiles(top, 0.1f, true);
             setAnimation(anim);
             this.moveBy(0,speed);

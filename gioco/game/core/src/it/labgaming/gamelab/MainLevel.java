@@ -3,9 +3,11 @@ package it.labgaming.gamelab;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -23,7 +25,7 @@ public class MainLevel extends BaseScreen{
     private ImageButton buttonTop;
     private ImageButton buttonBottom;
 
-    private ArrayList<Heart> hearts;
+   private ArrayList<Heart> hearts;
 
     @Override
     public void initialize()
@@ -40,6 +42,7 @@ public class MainLevel extends BaseScreen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
                 player.setDirection(Player.IDLE);
+                player.setPrevDirection(Player.RIGHT);
                 player.setAnimationPaused(true);
             }
             @Override
@@ -60,6 +63,7 @@ public class MainLevel extends BaseScreen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
                 player.setDirection(Player.IDLE);
+                player.setPrevDirection(Player.LEFT);
                 player.setAnimationPaused(true);
             }
             @Override
@@ -79,6 +83,7 @@ public class MainLevel extends BaseScreen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
                 player.setDirection(Player.IDLE);
+                player.setPrevDirection(Player.TOP);
                 player.setAnimationPaused(true);
             }
             @Override
@@ -98,6 +103,7 @@ public class MainLevel extends BaseScreen{
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
                 player.setDirection(Player.IDLE);
+                player.setPrevDirection(Player.BOTTOM);
                 player.setAnimationPaused(true);
             }
             @Override
@@ -111,8 +117,13 @@ public class MainLevel extends BaseScreen{
 
         PlayerUI playerUI = new PlayerUI(0,Gdx.graphics.getHeight()-150,uiStage);
 
-        Heart heart1 = new Heart(180,Gdx.graphics.getHeight()-110,uiStage);
-
+        Heart heart1 = new Heart(160,Gdx.graphics.getHeight()-110,uiStage);
+        Heart heart2 = new Heart(250,Gdx.graphics.getHeight()-110,uiStage);
+        Heart heart3 = new Heart(340,Gdx.graphics.getHeight()-110,uiStage);
+        hearts = new ArrayList<>();
+        hearts.add(heart1);
+        hearts.add(heart2);
+        hearts.add(heart3);
 
         uiStage.addActor(buttonRight);
         uiStage.addActor(buttonLeft);
@@ -165,19 +176,19 @@ public class MainLevel extends BaseScreen{
             player.preventOverlap(dog);
             if(dog.getX() == dog.getSpawnX() + 100 && dog.getY() == dog.getSpawnY()) {
                 dog.setWaypoint(dog.getX(),dog.getY());
-                dog.setDirection(1);
+                dog.setDirection(Dog.BOTTOM);
             }
             else if(dog.getX() == dog.getWaypointX() && dog.getY() == dog.getWaypointY() - 100){
                 dog.setWaypoint(dog.getX(),dog.getY());
-                dog.setDirection(2);
+                dog.setDirection(Dog.LEFT);
             }
             else if(dog.getX() == dog.getWaypointX() - 100 && dog.getY() == dog.getWaypointY()){
                 dog.setWaypoint(dog.getX(),dog.getY());
-                dog.setDirection(3);
+                dog.setDirection(Dog.TOP);
             }
             else if(dog.getX() == dog.getSpawnX() && dog.getY() == dog.getSpawnY()){
                 dog.setWaypoint(dog.getX(),dog.getY());
-                dog.setDirection(0);
+                dog.setDirection(Dog.RIGHT);
             }
         }
 
@@ -186,19 +197,19 @@ public class MainLevel extends BaseScreen{
             player.preventOverlap(cinghiale);
             if(cinghiale.getX() == cinghiale.getSpawnX() + 100 && cinghiale.getY() == cinghiale.getSpawnY()) {
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(1);
+                cinghiale.setDirection(Cinghiale.BOTTOM);
             }
             else if(cinghiale.getX() == cinghiale.getWaypointX() && cinghiale.getY() == cinghiale.getWaypointY() - 100){
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(2);
+                cinghiale.setDirection(Cinghiale.LEFT);
             }
             else if(cinghiale.getX() == cinghiale.getWaypointX() - 100 && cinghiale.getY() == cinghiale.getWaypointY()){
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(3);
+                cinghiale.setDirection(Cinghiale.TOP);
             }
             else if(cinghiale.getX() == cinghiale.getSpawnX() && cinghiale.getY() == cinghiale.getSpawnY()){
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(0);
+                cinghiale.setDirection(Cinghiale.RIGHT);
             }
         }
 
@@ -219,19 +230,28 @@ public class MainLevel extends BaseScreen{
                 player.preventOverlap(cinghiale);
                 cinghiale.preventOverlap(player);
 
-                if(player.getDirection() == Player.RIGHT) {
-                    player.moveBy(-100, 0);
+                if(player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.LEFT)) {
+                    Action moveBy = Actions.moveBy(-200,0,0.5f);
+                    player.hit(moveBy);
                 }
-                else if(player.getDirection() == Player.LEFT)
-                    player.moveBy(200,0);
-                else if(player.getDirection() == Player.TOP)
-                    player.moveBy(0,-200);
-                else if(player.getDirection() == Player.BOTTOM)
-                    player.moveBy(0,200);
+                else if(player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.RIGHT)) {
+                    Action moveBy = Actions.moveBy(200,0,0.5f);
+                    player.hit(moveBy);
+                }
+                else if(player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.BOTTOM)) {
+                    Action moveBy = Actions.moveBy(0, -200, 0.5f);
+                    player.hit(moveBy);
+                }
+                else if(player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.TOP)) {
+                    Action moveBy = Actions.moveBy(0,200,0.5f);
+                    player.hit(moveBy);
+                }
 
-                player.hit();
-                hearts.get(hearts.size() - 1).removeHeart();
-                hearts.remove(hearts.size() - 1);
+                if(hearts.size() > 0) {
+                    Heart heart = hearts.get(hearts.size() - 1);
+                    hearts.remove(heart);
+                    heart.removeHeart();
+                }
             }
         }
 
@@ -240,8 +260,8 @@ public class MainLevel extends BaseScreen{
             GameManager.setActiveScreen(new YouWinScreen());
         }
 
-        if (BaseActor.count(uiStage, "Heart") == 0) {
-            //win = true;
+        if (BaseActor.count(uiStage, "Heart") == 0 && !win) {
+            win = true;
             GameManager.setActiveScreen(new GameOverScreen());
         }
     }

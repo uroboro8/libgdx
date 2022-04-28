@@ -21,8 +21,7 @@ public class MenuScreen extends BaseScreen {
         background.setSize(mainStage.getWidth(), mainStage.getHeight());
 
         button = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("start.png"))));
-       // button.setSize(1000,800);
-        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth(),Gdx.graphics.getHeight()/2 - button.getHeight());
+        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2 ,Gdx.graphics.getHeight()/2 - button.getHeight() /2 );
         button.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {

@@ -4,20 +4,17 @@ package it.labgaming.gamelab;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Player extends BaseActor
 {
-    public static int IDLE=0;
-    public static int LEFT=1;
-    public static int TOP=2;
-    public static int RIGHT=3;
-    public static int BOTTOM=4;
+
 
     private int direction=0;
+    private int prevDirection = 0;
     private int speed=3;
-
-    private int life = 4;
 
     public Player(float x, float y, Stage s)
     {
@@ -38,6 +35,14 @@ public class Player extends BaseActor
     public void setDirection(int d)
     {
         direction=d;
+    }
+
+    public int getPrevDirection() {
+        return prevDirection;
+    }
+
+    public void setPrevDirection(int prevDirection) {
+        this.prevDirection = prevDirection;
     }
 
     public void act(float dt)
@@ -80,11 +85,12 @@ public class Player extends BaseActor
         alignCamera();
     }
 
-    public void hit(){
-        this.life -=1;
+    public void hit(Action moveBy){
+        this.setAnimationPaused(true);
+        this.clearActions();
+        this.addAction(moveBy);
+        //this.setAnimationPaused(false);
     }
 
-    public int getLife() {
-        return life;
-    }
+
 }

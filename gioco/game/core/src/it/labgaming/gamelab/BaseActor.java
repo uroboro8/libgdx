@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class BaseActor extends Actor {
 
-    //Begin 1.1.
     private Animation<TextureRegion> animation;
     private float elapsedTime;
     private boolean animationPaused;
@@ -40,6 +39,12 @@ public class BaseActor extends Actor {
     private float spawnY;
     private float waypointX;
     private float waypointY;
+
+    public static int IDLE=0;
+    public static int LEFT=1;
+    public static int TOP=2;
+    public static int RIGHT=3;
+    public static int BOTTOM=4;
 
     public BaseActor(float x, float y, Stage s)
     {

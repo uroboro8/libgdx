@@ -19,6 +19,7 @@ public class Cinghiale extends  BaseActor {
         super(x, y, s);
 
         loadAnimationFromFiles(bottom, 0.1f, true);
+        setBoundaryPolygon(8);
         this.setDirection(0);
     }
 
@@ -35,34 +36,28 @@ public class Cinghiale extends  BaseActor {
     public void act(float dt) {
         super.act(dt);
 
-        if(direction == 0) {
+        if(direction == Cinghiale.RIGHT) {
             anim = loadAnimationFromFiles(right, 0.1f, true);
             setAnimation(anim);
             this.moveBy(speed,0);
         }
-
-        if(direction == 1) {
+        if(direction == Cinghiale.BOTTOM) {
             anim = loadAnimationFromFiles(bottom, 0.1f, true);
             setAnimation(anim);
             this.moveBy(0,-speed);
 
         }
-        if(direction == 2) {
-
+        if(direction == Cinghiale.LEFT) {
             anim = loadAnimationFromFiles(left, 0.1f, true);
             setAnimation(anim);
             this.moveBy(-speed,0);
 
         }
-
-        if(direction == 3) {
-
+        if(direction == Cinghiale.TOP) {
             anim = loadAnimationFromFiles(top, 0.1f, true);
             setAnimation(anim);
             this.moveBy(0,speed);
         }
     }
-
-
 
 }
