@@ -135,21 +135,26 @@ public class MainLevel extends BaseScreen{
         background = new Background(0,0,mainStage);
         BaseActor.setWorldBounds(background);
 
-        new House(600,Gdx.graphics.getHeight()-550,mainStage);
+        new House(800,Gdx.graphics.getHeight()-550,mainStage);
 
-        new Tree(900,Gdx.graphics.getHeight()-550,mainStage);
-        new Tree(350,Gdx.graphics.getHeight()-550,mainStage);
-        new Tree(750,Gdx.graphics.getHeight()-300,mainStage);
-        new Tree(500,Gdx.graphics.getHeight()-300,mainStage);
+        new Tree(1100,Gdx.graphics.getHeight()-550,mainStage);
+        new Tree(550,Gdx.graphics.getHeight()-550,mainStage);
+        new Tree(950,Gdx.graphics.getHeight()-300,mainStage);
+        new Tree(700,Gdx.graphics.getHeight()-300,mainStage);
+        new Tree(0,350,mainStage);
+        new Tree(250,350,mainStage);
+        new Tree(320,50,mainStage);
+        //new Flower(600,0,mainStage);
 
-        new Dog(500,500,mainStage);
+        new Dog(700,500,mainStage);
+        new Horse(50,1000,mainStage);
 
-        new Cinghiale(1300,1200,mainStage);
+        new Cinghiale(1500,1500,mainStage);
 
-        new Food(1000,1000,mainStage);
-        new Food(1000,1500,mainStage);
-        new Food(2200,1000,mainStage);
-        player = new Player(700,Gdx.graphics.getHeight()-620,mainStage);
+        new Food(900,50,mainStage);
+        new Food(1700,1300,mainStage);
+        new Food(2400,1200,mainStage);
+        player = new Player(900,Gdx.graphics.getHeight()-620,mainStage);
         player.setDirection(Player.IDLE);
         player.setAnimationPaused(true);
     }
@@ -192,18 +197,39 @@ public class MainLevel extends BaseScreen{
             }
         }
 
+        for (BaseActor horseActor : BaseActor.getList(mainStage, "Horse")) {
+            Horse horse = (Horse) horseActor;
+            player.preventOverlap(horse);
+            if(horse.getX() == horse.getSpawnX() + 100 && horse.getY() == horse.getSpawnY()) {
+                horse.setWaypoint(horse.getX(),horse.getY());
+                horse.setDirection(Horse.BOTTOM);
+            }
+            else if(horse.getX() == horse.getWaypointX() && horse.getY() == horse.getWaypointY() - 300){
+                horse.setWaypoint(horse.getX(),horse.getY());
+                horse.setDirection(Horse.LEFT);
+            }
+            else if(horse.getX() == horse.getWaypointX() - 100 && horse.getY() == horse.getWaypointY()){
+                horse.setWaypoint(horse.getX(),horse.getY());
+                horse.setDirection(Horse.TOP);
+            }
+            else if(horse.getX() == horse.getSpawnX() && horse.getY() == horse.getSpawnY()){
+                horse.setWaypoint(horse.getX(),horse.getY());
+                horse.setDirection(Horse.RIGHT);
+            }
+        }
+
         for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
             Cinghiale cinghiale = (Cinghiale) cinghialeActor;
             player.preventOverlap(cinghiale);
-            if(cinghiale.getX() == cinghiale.getSpawnX() + 100 && cinghiale.getY() == cinghiale.getSpawnY()) {
+            if(cinghiale.getX() == cinghiale.getSpawnX() + 300 && cinghiale.getY() == cinghiale.getSpawnY()) {
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
                 cinghiale.setDirection(Cinghiale.BOTTOM);
             }
-            else if(cinghiale.getX() == cinghiale.getWaypointX() && cinghiale.getY() == cinghiale.getWaypointY() - 100){
+            else if(cinghiale.getX() == cinghiale.getWaypointX() && cinghiale.getY() == cinghiale.getWaypointY() - 300){
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
                 cinghiale.setDirection(Cinghiale.LEFT);
             }
-            else if(cinghiale.getX() == cinghiale.getWaypointX() - 100 && cinghiale.getY() == cinghiale.getWaypointY()){
+            else if(cinghiale.getX() == cinghiale.getWaypointX() - 300 && cinghiale.getY() == cinghiale.getWaypointY()){
                 cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
                 cinghiale.setDirection(Cinghiale.TOP);
             }

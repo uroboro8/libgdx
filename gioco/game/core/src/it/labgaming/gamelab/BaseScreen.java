@@ -15,6 +15,7 @@ public abstract class BaseScreen implements Screen {
         mainStage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 
+
         initialize();
     }
 

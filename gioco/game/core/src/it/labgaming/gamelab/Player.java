@@ -16,6 +16,12 @@ public class Player extends BaseActor
     private int prevDirection = 0;
     private int speed=3;
 
+    String[] top = {"a1-up.png","a2-up.png","a3-up.png"};
+    String[] left = {"a1-left.png","a2-left.png","a3-left.png"};
+    String[] right = {"a1.png","a2.png","a3.png"};
+    String[] bottom = {"a1-down.png","a2-down.png","a3-down.png"};
+    Animation<TextureRegion> anim;
+
     public Player(float x, float y, Stage s)
     {
         super(x,y,s);
@@ -52,32 +58,25 @@ public class Player extends BaseActor
         if(direction== Player.LEFT)
         {
             this.moveBy(-speed, 0);
-            //setDirection(Turtle.IDLE);
-            String[] filenames = {"a1-left.png","a2-left.png","a3-left.png"};
-            Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
+            anim = loadAnimationFromFiles(left,0.1f,true);
             setAnimation(anim);
         }
         else if(direction== Player.TOP)
         {
             this.moveBy(0, speed);
-            //setDirection(Turtle.IDLE);
-            String[] filenames = {"a1-up.png","a2-up.png","a3-up.png"};
-            Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
+            anim = loadAnimationFromFiles(top,0.1f,true);
             setAnimation(anim);
         }
         else if(direction== Player.RIGHT)
         {
             this.moveBy(speed, 0);
-
-            String[] filenames = {"a1.png","a2.png","a3.png"};
-            Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
+        anim = loadAnimationFromFiles(right,0.1f,true);
             setAnimation(anim);
         }
         else if(direction== Player.BOTTOM)
         {
             this.moveBy(0, -speed);
-            String[] filenames = {"a1-down.png","a2-down.png","a3-down.png"};
-            Animation<TextureRegion> anim = loadAnimationFromFiles(filenames,0.1f,true);
+            anim = loadAnimationFromFiles(bottom,0.1f,true);
             setAnimation(anim);
 
         }

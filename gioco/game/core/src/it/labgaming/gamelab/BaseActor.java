@@ -61,6 +61,7 @@ public class BaseActor extends Actor {
         elapsedTime = 0;
         animationPaused = false;
 
+        /*
         velocityVec = new Vector2(0,0);
 
         accelerationVec = new Vector2(0,0);
@@ -69,7 +70,7 @@ public class BaseActor extends Actor {
 
         maxSpeed = 1000;
         deceleration = 0;
-
+ */
     }
 
     private void setSpawnPoint(float x,float y){
@@ -314,6 +315,7 @@ public class BaseActor extends Actor {
         return animation.isAnimationFinished(elapsedTime);
     }
 
+    /*
     public void setSpeed(float speed)
     {
         //If length is zero, then assume motion angle is zero degrees.
@@ -387,7 +389,7 @@ public class BaseActor extends Actor {
         //Reset acceleration.
         accelerationVec.set(0,0);
     }
-
+ */
     public void alignCamera()
     {
         Camera cam = this.getStage().getCamera();
