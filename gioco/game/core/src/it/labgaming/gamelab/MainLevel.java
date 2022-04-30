@@ -145,16 +145,16 @@ public class MainLevel extends BaseScreen{
         //new Tree(250,350,mainStage);
         //new Tree(320,50,mainStage);
         //new Flower(600,0,mainStage);
-        for (int i = 0; i <= Gdx.graphics.getWidth();i +=250) {
+        for (int i = 0; i <= 2400;i +=250) {
             new Tree(i,0,mainStage);
         }
-        for (int i = 0; i <= Gdx.graphics.getWidth();i +=250) {
+        for (int i = 0; i <= 2400;i +=250) {
             new Tree(i,2150,mainStage);
         }
-        for (int i = 0; i <= Gdx.graphics.getWidth()-250;i +=250) {
+        for (int i = 0; i <= 2400-250;i +=250) {
             new Tree(0,i,mainStage);
         }
-        for (int i = 250; i <= Gdx.graphics.getWidth()-250;i +=250) {
+        for (int i = 250; i <= 2400-250;i +=250) {
             new Tree(2150,i,mainStage);
         }
 
