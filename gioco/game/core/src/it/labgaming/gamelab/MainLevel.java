@@ -174,7 +174,6 @@ public class MainLevel extends BaseScreen{
         new Cespuglio(334,1520,mainStage);
         new Cespuglio(334,1430,mainStage);
         new Cespuglio(334,1340,mainStage);
-        new Cespuglio(418,1340,mainStage);
         new Cespuglio(502,1340,mainStage);
         new Cespuglio(502,1430,mainStage);
 
@@ -233,9 +232,15 @@ public class MainLevel extends BaseScreen{
 
         new Cinghiale(1500,1500,mainStage);
 
-        new Food(900,350,mainStage);
-        new Food(1700,1300,mainStage);
-        new Food(500,1800,mainStage);
+        new Food(250,1970,mainStage);
+        new Food(595,1700,mainStage);
+        new Food(427,1630,mainStage);
+        new Food(920,2060,mainStage);
+        new Food(1030,1880,mainStage);
+        new Food(1900,630,mainStage);
+        
+        //usare questo food se lo si vuole far diventare un cuore
+        new Food(1685,1700,mainStage);
         player = new Player(900,Gdx.graphics.getHeight()-620,mainStage);
         player.setDirection(Player.IDLE);
         player.setAnimationPaused(true);
