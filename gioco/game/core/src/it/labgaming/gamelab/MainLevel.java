@@ -230,6 +230,7 @@ public class MainLevel extends BaseScreen{
             }
         }
 
+
         for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
             Cinghiale cinghiale = (Cinghiale) cinghialeActor;
             player.preventOverlap(cinghiale);
