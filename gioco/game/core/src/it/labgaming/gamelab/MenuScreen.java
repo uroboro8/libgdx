@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class MenuScreen extends BaseScreen {
 
     private boolean isFirstTime;
-    private ImageButton button;
+    private ImageButton buttonPlay;
+    private ImageButton quitButton;
 
     public void initialize(){
         Gdx.input.setInputProcessor(uiStage);
@@ -19,10 +20,14 @@ public class MenuScreen extends BaseScreen {
         BaseActor background = new BaseActor(0,0,mainStage);
         background.loadTexture("menu-background.png");
         background.setSize(mainStage.getWidth(), mainStage.getHeight());
+        
 
-        button = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("start.png"))));
-        button.setPosition(Gdx.graphics.getWidth()/2 - button.getWidth()/2 ,Gdx.graphics.getHeight()/2 - button.getHeight() /2 );
-        button.addListener(new InputListener(){
+        BaseActor logo = new BaseActor(Gdx.graphics.getWidth() /2 - 400 ,Gdx.graphics.getHeight()  - 300,mainStage);
+        logo.loadTexture("logo-1.png");
+
+        buttonPlay = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("play.png"))));
+        buttonPlay.setPosition(Gdx.graphics.getWidth()/2 - buttonPlay.getWidth()/2 ,Gdx.graphics.getHeight()/2 - buttonPlay.getHeight()/3);
+        buttonPlay.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Press a Button");
@@ -36,7 +41,23 @@ public class MenuScreen extends BaseScreen {
             }
         });
 
-        uiStage.addActor(button);
+        quitButton = new ImageButton(textureToDrawable(new Texture(Gdx.files.internal("quit.png"))));
+        quitButton.setPosition(Gdx.graphics.getWidth()/2 - quitButton.getWidth()/2 ,Gdx.graphics.getHeight()/2 - quitButton.getHeight() /2 - buttonPlay.getHeight());
+        quitButton.addListener(new InputListener(){
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("#INFO", "Press a Button");
+                Gdx.app.exit();
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                Gdx.app.log("#INFO", "Pressed Text Button");
+                return true;
+            }
+        });
+
+        uiStage.addActor(quitButton);
+        uiStage.addActor(buttonPlay);
     }
 
     @Override

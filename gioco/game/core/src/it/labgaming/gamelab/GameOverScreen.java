@@ -38,7 +38,8 @@ public class GameOverScreen extends BaseScreen{
     @Override
     public void update(float dt) {
         if(isFirstTime)
-            GameManager.setActiveScreen( new MenuScreen() );
+           GameManager.setActiveScreen( new MenuScreen() );
+
     }
 
 }
