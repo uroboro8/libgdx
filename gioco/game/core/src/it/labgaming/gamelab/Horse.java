@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Horse extends BaseActor{
 
-    private int speed=1;
+    private int speed=5;
     private int direction;
 
     String[] top = {"horse-up-1.png", "horse-up-2.png", "horse-up-3.png"};;

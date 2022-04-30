@@ -165,7 +165,7 @@ public class MainLevel extends BaseScreen{
 
         new Food(900,50,mainStage);
         new Food(1700,1300,mainStage);
-        new Food(2400,1200,mainStage);
+        new Food(200,1800,mainStage);
         player = new Player(900,Gdx.graphics.getHeight()-620,mainStage);
         player.setDirection(Player.IDLE);
         player.setAnimationPaused(true);

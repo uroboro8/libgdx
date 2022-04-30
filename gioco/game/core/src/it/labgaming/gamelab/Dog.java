@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Dog extends  BaseActor {
 
-    private int speed=1;
+    private int speed=5;
     private int direction;
 
     String[] top = {"dog-up-1.png", "dog-up-2.png", "dog-up-3.png"};;

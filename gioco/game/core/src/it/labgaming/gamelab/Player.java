@@ -14,7 +14,7 @@ public class Player extends BaseActor
 
     private int direction=0;
     private int prevDirection = 0;
-    private int speed=3;
+    private int speed=10;
 
     String[] top = {"a1-up.png","a2-up.png","a3-up.png"};
     String[] left = {"a1-left.png","a2-left.png","a3-left.png"};
