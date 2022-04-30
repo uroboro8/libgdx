@@ -157,7 +157,51 @@ public class MainLevel extends BaseScreen{
         for (int i = 250; i <= 2400-250;i +=250) {
             new Tree(2150,i,mainStage);
         }
-        
+
+        //zona in alto a sinistra
+        new Cespuglio(250,1850,mainStage);
+        new Cespuglio(334,1850,mainStage);
+        new Cespuglio(334,1940,mainStage);
+        new Cespuglio(418,1940,mainStage);
+        new Cespuglio(502,1940,mainStage);
+        new Cespuglio(502,1760,mainStage);
+        new Cespuglio(502,1670,mainStage);
+        new Cespuglio(502,1580,mainStage);
+        new Cespuglio(586,1580,mainStage);
+        new Cespuglio(418,1670,mainStage);
+        new Cespuglio(334,1670,mainStage);
+        new Cespuglio(334,1580,mainStage);
+        new Cespuglio(334,1490,mainStage);
+        new Cespuglio(334,1400,mainStage);
+        new Cespuglio(334,1310,mainStage);
+        new Cespuglio(418,1310,mainStage);
+        new Cespuglio(502,1310,mainStage);
+        new Cespuglio(502,1400,mainStage);
+
+        //zona in basso a destra
+        new Cespuglio(1503,330,mainStage);
+
+        //zona in alto a destra
+        new Cespuglio(920,1960,mainStage);
+        new Cespuglio(1004,1960,mainStage);
+        new Cespuglio(1088,1960,mainStage);
+        new Cespuglio(1088,1870,mainStage);
+        new Cespuglio(1088,1780,mainStage);
+        new Cespuglio(1004,1780,mainStage);
+
+        new Tree(670,1940,mainStage);
+        new Tree(670,1690,mainStage);
+        new Tree(670,1440,mainStage);
+        new Tree(920,1440,mainStage);
+        new Tree(1170,1440,mainStage);
+        new Tree(1420,1440,mainStage);
+        new Tree(1420,920,mainStage);
+        new Tree(1670,920,mainStage);
+        new Tree(249,1000,mainStage);
+        new Tree(1420,670,mainStage);
+        new Tree(1420,420,mainStage);
+        new Tree(670,1190,mainStage);
+        new Tree(920,1190,mainStage);
 
         new Dog(700,500,mainStage);
         new Horse(350,1000,mainStage);
