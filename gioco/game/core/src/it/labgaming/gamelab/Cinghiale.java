@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Cinghiale extends  BaseActor {
 
-    private int speed=1;
+    private int speed=5;
     private int direction;
 
     String[] top = {"cinghiale-top-1.png", "cinghiale-top-2.png", "cinghiale-top-3.png"};;
