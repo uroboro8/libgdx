@@ -141,13 +141,25 @@ public class MainLevel extends BaseScreen{
         new Tree(550,Gdx.graphics.getHeight()-550,mainStage);
         new Tree(950,Gdx.graphics.getHeight()-300,mainStage);
         new Tree(700,Gdx.graphics.getHeight()-300,mainStage);
-        new Tree(0,350,mainStage);
-        new Tree(250,350,mainStage);
-        new Tree(320,50,mainStage);
+        //new Tree(0,350,mainStage);
+        //new Tree(250,350,mainStage);
+        //new Tree(320,50,mainStage);
         //new Flower(600,0,mainStage);
+        for (int i = 0; i <= Gdx.graphics.getWidth();i +=250) {
+            new Tree(i,0,mainStage);
+        }
+        for (int i = 0; i <= Gdx.graphics.getWidth();i +=250) {
+            new Tree(i,2150,mainStage);
+        }
+        for (int i = 0; i <= Gdx.graphics.getWidth()-250;i +=250) {
+            new Tree(0,i,mainStage);
+        }
+        for (int i = 250; i <= Gdx.graphics.getWidth()-250;i +=250) {
+            new Tree(2150,i,mainStage);
+        }
 
         new Dog(700,500,mainStage);
-        new Horse(50,1000,mainStage);
+        new Horse(350,1000,mainStage);
 
         new Cinghiale(1500,1500,mainStage);
 
