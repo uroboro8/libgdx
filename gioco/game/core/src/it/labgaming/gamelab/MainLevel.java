@@ -233,6 +233,9 @@ public class MainLevel extends BaseScreen{
         for (BaseActor house : BaseActor.getList(mainStage, "House"))
             player.preventOverlap(house);
 
+        for (BaseActor cespuglio : BaseActor.getList(mainStage, "Cespuglio"))
+            player.preventOverlap(cespuglio);
+
         for (BaseActor dogActor : BaseActor.getList(mainStage, "Dog")) {
             Dog dog = (Dog) dogActor;
             player.preventOverlap(dog);
