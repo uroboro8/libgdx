@@ -189,6 +189,7 @@ public class MainLevel extends BaseScreen{
         new Cespuglio(1088,1780,mainStage);
         new Cespuglio(1004,1780,mainStage);
 
+        //alberi
         new Tree(670,1940,mainStage);
         new Tree(670,1690,mainStage);
         new Tree(670,1440,mainStage);
