@@ -159,35 +159,58 @@ public class MainLevel extends BaseScreen{
         }
 
         //zona in alto a sinistra
-        new Cespuglio(250,1850,mainStage);
-        new Cespuglio(334,1850,mainStage);
-        new Cespuglio(334,1940,mainStage);
-        new Cespuglio(418,1940,mainStage);
-        new Cespuglio(502,1940,mainStage);
-        new Cespuglio(502,1760,mainStage);
-        new Cespuglio(502,1670,mainStage);
-        new Cespuglio(502,1580,mainStage);
-        new Cespuglio(586,1580,mainStage);
-        new Cespuglio(418,1670,mainStage);
-        new Cespuglio(334,1670,mainStage);
-        new Cespuglio(334,1580,mainStage);
-        new Cespuglio(334,1490,mainStage);
-        new Cespuglio(334,1400,mainStage);
-        new Cespuglio(334,1310,mainStage);
-        new Cespuglio(418,1310,mainStage);
-        new Cespuglio(502,1310,mainStage);
-        new Cespuglio(502,1400,mainStage);
-
-        //zona in basso a destra
-        new Cespuglio(1503,330,mainStage);
+        new Cespuglio(250,1880,mainStage);
+        new Cespuglio(334,1880,mainStage);
+        new Cespuglio(334,1970,mainStage);
+        new Cespuglio(418,1970,mainStage);
+        new Cespuglio(502,1970,mainStage);
+        new Cespuglio(502,1790,mainStage);
+        new Cespuglio(502,1700,mainStage);
+        new Cespuglio(502,1610,mainStage);
+        new Cespuglio(586,1610,mainStage);
+        new Cespuglio(418,1700,mainStage);
+        new Cespuglio(334,1700,mainStage);
+        new Cespuglio(334,1610,mainStage);
+        new Cespuglio(334,1520,mainStage);
+        new Cespuglio(334,1430,mainStage);
+        new Cespuglio(334,1340,mainStage);
+        new Cespuglio(418,1340,mainStage);
+        new Cespuglio(502,1340,mainStage);
+        new Cespuglio(502,1430,mainStage);
 
         //zona in alto a destra
-        new Cespuglio(920,1960,mainStage);
-        new Cespuglio(1004,1960,mainStage);
-        new Cespuglio(1088,1960,mainStage);
-        new Cespuglio(1088,1870,mainStage);
-        new Cespuglio(1088,1780,mainStage);
-        new Cespuglio(1004,1780,mainStage);
+        new Cespuglio(920,1970,mainStage);
+        new Cespuglio(1004,1970,mainStage);
+        new Cespuglio(1088,1970,mainStage);
+        new Cespuglio(1088,1880,mainStage);
+        new Cespuglio(1088,1790,mainStage);
+        new Cespuglio(1004,1790,mainStage);
+        new Cespuglio(1172,1790,mainStage);
+        new Cespuglio(1340,1790,mainStage);
+        new Cespuglio(1424,1790,mainStage);
+        new Cespuglio(1508,1790,mainStage);
+        new Cespuglio(1592,1790,mainStage);
+        new Cespuglio(1592,1700,mainStage);
+        new Cespuglio(2012,1700,mainStage);
+        new Cespuglio(2096,1700,mainStage);
+        new Cespuglio(2012,1880,mainStage);
+        new Cespuglio(2012,1970,mainStage);
+        new Cespuglio(2012,1790,mainStage);
+        new Cespuglio(2012,2060,mainStage);
+        new Cespuglio(2096,1790,mainStage);
+        new Cespuglio(2096,1880,mainStage);
+        new Cespuglio(2096,1970,mainStage);
+        new Cespuglio(2096,2060,mainStage);
+        new Cespuglio(1256,1970,mainStage);
+        new Cespuglio(1340,1970,mainStage);
+        new Cespuglio(1424,1970,mainStage);
+        new Cespuglio(1508,1970,mainStage);
+        new Cespuglio(1592,1970,mainStage);
+        new Cespuglio(1676,1970,mainStage);
+        new Cespuglio(1760,1970,mainStage);
+        new Cespuglio(1844,1970,mainStage);
+        new Cespuglio(1760,1700,mainStage);
+        new Cespuglio(1760,1790,mainStage);
 
         //alberi
         new Tree(670,1940,mainStage);
@@ -196,6 +219,7 @@ public class MainLevel extends BaseScreen{
         new Tree(920,1440,mainStage);
         new Tree(1170,1440,mainStage);
         new Tree(1420,1440,mainStage);
+        new Tree(1670,1440,mainStage);
         new Tree(1420,920,mainStage);
         new Tree(1670,920,mainStage);
         new Tree(249,1000,mainStage);
