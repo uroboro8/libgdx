@@ -73,6 +73,7 @@ public class BaseActor extends Actor {
  */
     }
 
+
     private void setSpawnPoint(float x,float y){
         this.spawnX = x;
         this.spawnY = y;

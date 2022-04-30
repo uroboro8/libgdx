@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Bear extends  BaseActor {
 
-    private int speed=5;
+    private int speed=4;
     private int direction;
+
+    private int count;
 
     String[] top = {"bear-up-1.png", "bear-up-2.png", "bear-up-3.png"};;
     String[] left = {"bear-left-1.png", "bear-left-2.png", "bear-left-3.png"};;
@@ -15,12 +17,16 @@ public class Bear extends  BaseActor {
     String[] bottom = {"bear-bottom-1.png", "bear-bottom-2.png", "bear-bottom-3.png"};;
     Animation<TextureRegion> anim;
 
-    public Bear(float x, float y, Stage s) {
+    public Bear(float x, float y, Stage s,int count) {
         super(x, y, s);
-
+        this.count = count;
         loadAnimationFromFiles(bottom, 0.1f, true);
         setBoundaryPolygon(8);
         this.setDirection(0);
+    }
+
+    public int getCount(){
+        return this.count;
     }
 
     public void setDirection(int d)
@@ -58,5 +64,37 @@ public class Bear extends  BaseActor {
             setAnimation(anim);
             this.moveBy(0,speed);
         }
+    }
+
+    public void setSquarePath(float offSetX1,float offSetX2,float offSetY){
+        if(this.getX() >= this.getSpawnX() + offSetX1 && this.getY() == this.getSpawnY()) {
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Bear.BOTTOM);
+        }
+        else if(this.getX() == this.getWaypointX() && this.getY() <= this.getWaypointY() - offSetY){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Bear.LEFT);
+        }
+        else if(this.getX() <= this.getWaypointX() - offSetX2 && this.getY() == this.getWaypointY()){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Bear.TOP);
+        }
+        else if( this.getY() >= this.getSpawnY()){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Bear.RIGHT);
+        }
+    }
+
+    public void setXPath(float OffSetX){
+        if(this.getX() >= this.getSpawnX() + OffSetX && this.getY() == this.getSpawnY())
+            this.setDirection(Bear.LEFT);
+        else if(this.getX() <= this.getSpawnX() && this.getY() == this.getSpawnY())
+            this.setDirection(Bear.RIGHT);
+    }
+    public void setYPath(float OffSetY){
+        if(this.getY() >= this.getSpawnY() )
+            this.setDirection(Bear.BOTTOM);
+        else if(this.getY() <= this.getSpawnY() - OffSetY)
+            this.setDirection(Bear.TOP);
     }
 }

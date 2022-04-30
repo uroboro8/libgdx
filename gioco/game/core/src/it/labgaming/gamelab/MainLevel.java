@@ -230,10 +230,16 @@ public class MainLevel extends BaseScreen{
         new Dog(700,500,mainStage);
         new Horse(350,1000,mainStage);
 
-        new Cinghiale(1500,1500,mainStage);
+        new Cinghiale(1800,700,mainStage,0);
+        new Cinghiale(1150,1900,mainStage,1);
+        new Cinghiale(390,1550,mainStage,3);
+        new Cinghiale (1050,2050,mainStage,4);
+
+        new Bear(1100,1700,mainStage,0);
+        new Bear(570,2050,mainStage,1);
 
         new Food(250,1970,mainStage);
-        new Food(595,1700,mainStage);
+       // new Food(595,1700,mainStage);
         new Food(427,1630,mainStage);
         new Food(920,2060,mainStage);
         new Food(1030,1880,mainStage);
@@ -308,28 +314,6 @@ public class MainLevel extends BaseScreen{
             }
         }
 
-
-        for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
-            Cinghiale cinghiale = (Cinghiale) cinghialeActor;
-            player.preventOverlap(cinghiale);
-            if(cinghiale.getX() == cinghiale.getSpawnX() + 300 && cinghiale.getY() == cinghiale.getSpawnY()) {
-                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(Cinghiale.BOTTOM);
-            }
-            else if(cinghiale.getX() == cinghiale.getWaypointX() && cinghiale.getY() == cinghiale.getWaypointY() - 300){
-                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(Cinghiale.LEFT);
-            }
-            else if(cinghiale.getX() == cinghiale.getWaypointX() - 300 && cinghiale.getY() == cinghiale.getWaypointY()){
-                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(Cinghiale.TOP);
-            }
-            else if(cinghiale.getX() == cinghiale.getSpawnX() && cinghiale.getY() == cinghiale.getSpawnY()){
-                cinghiale.setWaypoint(cinghiale.getX(),cinghiale.getY());
-                cinghiale.setDirection(Cinghiale.RIGHT);
-            }
-        }
-
         for (BaseActor foodActor : BaseActor.getList(mainStage, "Food")) {
             Food food = (Food) foodActor;
 
@@ -342,6 +326,14 @@ public class MainLevel extends BaseScreen{
 
         for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
             Cinghiale cinghiale = (Cinghiale) cinghialeActor;
+            if(cinghiale.getCount() == 0)
+                cinghiale.setSquarePath(150,200,200);
+            else if(cinghiale.getCount() == 1)
+                cinghiale.setXPath(750);
+            else if(cinghiale.getCount() == 3)
+                cinghiale.setSquarePath(200,200,300);
+            else if(cinghiale.getCount() == 4)
+                cinghiale.setXPath(500);
 
             if (player.overlaps(cinghiale) || cinghiale.overlaps(player)) {
                 player.preventOverlap(cinghiale);
@@ -369,6 +361,46 @@ public class MainLevel extends BaseScreen{
                     hearts.remove(heart);
                     heart.removeHeart();
                 }
+
+            }
+        }
+
+        for (BaseActor bearActor : BaseActor.getList(mainStage, "Bear")) {
+           Bear bear = (Bear) bearActor;
+            if(bear.getCount() == 0)
+                bear.setXPath(350);
+            else if(bear.getCount() == 1){
+                bear.setYPath(350);
+            }
+
+
+            if (player.overlaps(bear) || bear.overlaps(player)) {
+                player.preventOverlap(bear);
+                bear.preventOverlap(player);
+
+                if(player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.LEFT)) {
+                    Action moveBy = Actions.moveBy(-200,0,0.5f);
+                    player.hit(moveBy);
+                }
+                else if(player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.RIGHT)) {
+                    Action moveBy = Actions.moveBy(200,0,0.5f);
+                    player.hit(moveBy);
+                }
+                else if(player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.BOTTOM)) {
+                    Action moveBy = Actions.moveBy(0, -200, 0.5f);
+                    player.hit(moveBy);
+                }
+                else if(player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.TOP)) {
+                    Action moveBy = Actions.moveBy(0,200,0.5f);
+                    player.hit(moveBy);
+                }
+
+                if(hearts.size() > 0) {
+                    Heart heart = hearts.get(hearts.size() - 1);
+                    hearts.remove(heart);
+                    heart.removeHeart();
+                }
+
             }
         }
 

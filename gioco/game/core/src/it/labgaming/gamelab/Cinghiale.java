@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Cinghiale extends  BaseActor {
 
-    private int speed=5;
+    private int speed=6;
     private int direction;
+
+    private int count;
 
     String[] top = {"cinghiale-top-1.png", "cinghiale-top-2.png", "cinghiale-top-3.png"};;
     String[] left = {"cinghiale-left-1.png", "cinghiale-left-2.png", "cinghiale-left-3.png"};;
@@ -15,12 +17,16 @@ public class Cinghiale extends  BaseActor {
     String[] bottom = {"cinghiale-bottom-1.png", "cinghiale-bottom-2.png", "cinghiale-bottom-3.png"};;
     Animation<TextureRegion> anim;
 
-    public Cinghiale(float x, float y, Stage s) {
+    public Cinghiale(float x, float y, Stage s,int count) {
         super(x, y, s);
-
+        this.count = count;
         loadAnimationFromFiles(bottom, 0.1f, true);
         setBoundaryPolygon(8);
         this.setDirection(0);
+    }
+
+    public int getCount(){
+        return this.count;
     }
 
     public void setDirection(int d)
@@ -60,4 +66,30 @@ public class Cinghiale extends  BaseActor {
         }
     }
 
+
+    public void setSquarePath(float offSetX1,float offSetX2,float offSetY){
+        if(this.getX() >= this.getSpawnX() + offSetX1 && this.getY() == this.getSpawnY()) {
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Cinghiale.BOTTOM);
+        }
+        else if(this.getX() == this.getWaypointX() && this.getY() <= this.getWaypointY() - offSetY){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Cinghiale.LEFT);
+        }
+        else if(this.getX() <= this.getWaypointX() - offSetX2 && this.getY() == this.getWaypointY()){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Cinghiale.TOP);
+        }
+        else if( this.getY() >= this.getSpawnY()){
+            this.setWaypoint(this.getX(),this.getY());
+            this.setDirection(Cinghiale.RIGHT);
+        }
+    }
+
+    public void setXPath(float OffSetX){
+        if(this.getX() >= this.getSpawnX() + OffSetX && this.getY() == this.getSpawnY())
+            this.setDirection(Cinghiale.LEFT);
+        else if(this.getX() <= this.getSpawnX() && this.getY() == this.getSpawnY())
+            this.setDirection(Cinghiale.RIGHT);
+    }
 }
