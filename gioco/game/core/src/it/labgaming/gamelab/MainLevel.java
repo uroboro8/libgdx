@@ -157,6 +157,7 @@ public class MainLevel extends BaseScreen{
         for (int i = 250; i <= 2400-250;i +=250) {
             new Tree(2150,i,mainStage);
         }
+        
 
         new Dog(700,500,mainStage);
         new Horse(350,1000,mainStage);
