@@ -5,12 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.audio.Music;
 
 public abstract class BaseScreen implements Screen {
 
     protected Stage mainStage;
     protected  Stage uiStage;
-
+    private Music music;
     public BaseScreen(){
         mainStage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
@@ -20,6 +21,12 @@ public abstract class BaseScreen implements Screen {
     }
 
     public abstract void initialize();
+    {
+        music = Gdx.audio.newMusic(Gdx.files.internal("start.ogg"));
+        music.setVolume(0.2f);
+        music.setLooping(false);
+        music.play();
+    }
 
     public abstract void update(float dt);
 
