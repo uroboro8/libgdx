@@ -15,7 +15,7 @@ public class GameOverScreen extends BaseScreen{
     private Music music;
 
     public void initialize(){
-        music = Gdx.audio.newMusic(Gdx.files.internal("Gameover1.ogg"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("gameover.ogg"));
         music.setVolume(0.2f);
         music.setLooping(false);
         music.play();
