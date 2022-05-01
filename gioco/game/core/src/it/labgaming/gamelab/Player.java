@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.audio.Music;
 
 public class Player extends BaseActor
 {
 
-
+    private Music music;
     private int direction=0;
     private int prevDirection = 0;
     private int speed=8;
@@ -89,6 +90,11 @@ public class Player extends BaseActor
     }
 
     public void hit(Action moveBy,Stage stage){
+    
+        music = Gdx.audio.newMusic(Gdx.files.internal("damage.ogg"));
+        music.setVolume(0.2f);
+        music.setLooping(false);
+        music.play();
        // this.isHit = true;
         Gdx.input.setInputProcessor(null);
         this.setAnimationPaused(true);
