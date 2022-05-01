@@ -2,9 +2,10 @@ package it.labgaming.gamelab;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.audio.Music;
 
 public class Food extends  BaseActor{
-
+    private Music music;
     private boolean collected;
 
    public static int MEAT = 0;
@@ -46,6 +47,11 @@ public class Food extends  BaseActor{
 
     public void collect()
     {
+                music = Gdx.audio.newMusic(Gdx.files.internal("absorb.ogg"));
+        music.setVolume(0.2f);
+        music.setLooping(false);
+        music.play();
+        
         collected = true;
         clearActions();
         addAction( Actions.fadeOut(1) );
