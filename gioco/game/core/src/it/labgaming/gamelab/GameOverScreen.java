@@ -7,12 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.audio.Music;
 
 public class GameOverScreen extends BaseScreen{
 
     private boolean isFirstTime;
+    private Music music;
 
     public void initialize(){
+        music = Gdx.audio.newMusic(Gdx.files.internal("Gameover1.ogg"));
+        music.setVolume(0.2f);
+        music.setLooping(false);
+        music.play();
+
         Gdx.input.setInputProcessor(mainStage);
         isFirstTime=false;
         BaseActor background = new BaseActor(0,0,mainStage);
@@ -41,5 +48,7 @@ public class GameOverScreen extends BaseScreen{
            GameManager.setActiveScreen( new MenuScreen() );
 
     }
+
+    public void dispose() {music.dispose();}
 
 }
