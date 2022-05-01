@@ -1,6 +1,7 @@
 package it.labgaming.gamelab;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -25,12 +26,18 @@ public class MainLevel extends BaseScreen{
     private ImageButton buttonTop;
     private ImageButton buttonBottom;
 
-   private ArrayList<Heart> hearts;
+    private ArrayList<Heart> hearts;
 
+   private Music music;
     @Override
     public void initialize()
     {
         Gdx.input.setInputProcessor(uiStage);
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("background-music.wav"));
+        music.setVolume(0.2f);
+        music.setLooping(true);
+        music.play();
 
         setupWorld();
 
@@ -386,11 +393,15 @@ public class MainLevel extends BaseScreen{
 
         if (BaseActor.count(mainStage, "Food") == 0 && !win) {
             win = true;
+            music.stop();
+            music.dispose();
             GameManager.setActiveScreen(new YouWinScreen());
         }
 
         if (BaseActor.count(uiStage, "Heart") == 0 && !win) {
             win = true;
+            music.stop();
+            music.dispose();
             GameManager.setActiveScreen(new GameOverScreen());
         }
     }

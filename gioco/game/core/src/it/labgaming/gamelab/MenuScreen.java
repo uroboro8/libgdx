@@ -1,6 +1,7 @@
 package it.labgaming.gamelab;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,9 +14,15 @@ public class MenuScreen extends BaseScreen {
     private boolean isFirstTime;
     private ImageButton buttonPlay;
     private ImageButton quitButton;
+    private Music music;
 
     public void initialize(){
         Gdx.input.setInputProcessor(uiStage);
+        music = Gdx.audio.newMusic(Gdx.files.internal("menu-music.wav"));
+        music.setVolume(1f);
+        music.setLooping(false);
+        music.play();
+
         isFirstTime=false;
         BaseActor background = new BaseActor(0,0,mainStage);
         background.loadTexture("menu-background.png");
@@ -62,8 +69,11 @@ public class MenuScreen extends BaseScreen {
 
     @Override
     public void update(float dt) {
-        if(isFirstTime)
-            GameManager.setActiveScreen( new MainLevel() );
+        if(isFirstTime) {
+            music.stop();
+            music.dispose();
+            GameManager.setActiveScreen(new MainLevel());
+        }
     }
 
     private TextureRegionDrawable textureToDrawable(Texture buttonTexture){
@@ -71,4 +81,5 @@ public class MenuScreen extends BaseScreen {
         TextureRegionDrawable buttonRegionDrawable = new TextureRegionDrawable(buttonTextureRegion);
         return buttonRegionDrawable;
     }
+
 }

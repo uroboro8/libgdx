@@ -1,6 +1,7 @@
 package it.labgaming.gamelab;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,12 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class YouWinScreen extends BaseScreen{
 
     private boolean isFirstTime;
+    private Music music;
 
     public void initialize(){
         Gdx.input.setInputProcessor(mainStage);
+        music = Gdx.audio.newMusic(Gdx.files.internal("Victory1.ogg"));
+        music.setVolume(0.2f);
+        music.setLooping(false);
+        music.play();
+
         isFirstTime=false;
         BaseActor background = new BaseActor(0,0,mainStage);
-        background.loadTexture("you-win.png");
+        background.loadTexture("you-win.jpg");
         background.setSize(mainStage.getWidth(), mainStage.getHeight());
 
         background.addListener(new InputListener(){
@@ -35,8 +42,12 @@ public class YouWinScreen extends BaseScreen{
 
     @Override
     public void update(float dt) {
-        if(isFirstTime)
-            GameManager.setActiveScreen( new MenuScreen() );
+        if(isFirstTime) {
+            music.stop();
+            music.dispose();
+            GameManager.setActiveScreen(new MenuScreen());
+        }
     }
+
 
 }

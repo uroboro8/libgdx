@@ -1,5 +1,7 @@
 package it.labgaming.gamelab;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -12,9 +14,12 @@ public class Food extends  BaseActor{
     public static int HAMBURGER = 2;
     public static int ORANGE = 3;
 
+    private Sound sound;
+    private long soundId;
+
     public Food(float x, float y, Stage s,int type) {
         super(x, y, s);
-
+        sound = Gdx.audio.newSound(Gdx.files.internal("Absorb2.ogg"));
         switch(type){
             case 0:
                 loadTexture("meat.png");
@@ -46,6 +51,7 @@ public class Food extends  BaseActor{
 
     public void collect()
     {
+        soundId = sound.play(0.2f);
         collected = true;
         clearActions();
         addAction( Actions.fadeOut(1) );

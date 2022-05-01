@@ -3,6 +3,8 @@
 package it.labgaming.gamelab;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -26,14 +28,14 @@ public class Player extends BaseActor
     Animation<TextureRegion> animLeft;
     Animation<TextureRegion> animRight;
     Animation<TextureRegion> animBottom;
+    private Sound sound;
+    private long soundId;
 
     public Player(float x, float y, Stage s)
     {
         super(x,y,s);
 
-
-        //String[] filenames = {"a1-down.png","a2-down.png","a3-down.png"};
-        //loadAnimationFromFiles(filenames, 0.1f, true);
+        sound = Gdx.audio.newSound(Gdx.files.internal("Damage2.ogg"));
 
         animTop =  loadAnimationFromFiles(top, 0.1f, true);
         animBottom =  loadAnimationFromFiles(bottom, 0.1f, true);
@@ -91,10 +93,12 @@ public class Player extends BaseActor
     public void hit(Action moveBy,Stage stage){
        // this.isHit = true;
         Gdx.input.setInputProcessor(null);
+        soundId = sound.play(0.2f);
         this.setAnimationPaused(true);
         this.clearActions();
         this.setDirection(Player.IDLE);
         this.addAction(moveBy);
+        //sound.stop(soundId);
         Gdx.input.setInputProcessor(stage);
        // this.isHit = false;
         //this.setAnimationPaused(false);
