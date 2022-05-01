@@ -1,5 +1,3 @@
-package it.labgaming.gamelab;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,15 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
+import com.badlogic.gdx.audio.Music;
 import java.util.ArrayList;
 
 public class MainLevel extends BaseScreen{
-
+    private Music music;
     private Player player;
     private Background background;
     private boolean win;
-
     private ImageButton buttonRight;
     private ImageButton buttonLeft;
     private ImageButton buttonTop;
@@ -30,6 +27,12 @@ public class MainLevel extends BaseScreen{
     @Override
     public void initialize()
     {
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("backgroundmusic.wav"));
+        music.setVolume(0.2f);
+        music.setLooping(true);
+        music.play();
+
         Gdx.input.setInputProcessor(uiStage);
 
         setupWorld();
@@ -89,8 +92,8 @@ public class MainLevel extends BaseScreen{
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.log("#INFO", "Pressed Text Button");
-                    player.setAnimationPaused(false);
-                    player.setDirection(Player.TOP);
+                player.setAnimationPaused(false);
+                player.setDirection(Player.TOP);
                 return true;
             }
         });
@@ -227,12 +230,9 @@ public class MainLevel extends BaseScreen{
         new Tree(670,1190,mainStage);
         new Tree(920,1190,mainStage);
 
-        //NPC Buoni
         new Dog(700,500,mainStage);
-        new Horse(250,900,mainStage);
-        new Cat(1200,1400,mainStage);
+        new Horse(350,1000,mainStage);
 
-        //NPC Nemici
         new Cinghiale(1800,700,mainStage,0);
         new Cinghiale(1150,1900,mainStage,1);
         new Cinghiale(390,1550,mainStage,3);
@@ -241,15 +241,15 @@ public class MainLevel extends BaseScreen{
         new Bear(1100,1700,mainStage,0);
         new Bear(570,2050,mainStage,1);
 
-        //Cibo
-        new Food(250,1970,mainStage,Food.CAKE);
+        new Food(250,1970,mainStage);
        // new Food(595,1700,mainStage);
-        new Food(427,1630,mainStage,Food.HAMBURGER);
-        new Food(920,2060,mainStage,Food.ORANGE);
-        new Food(1030,1880,mainStage,Food.MEAT);
-        new Food(1900,630,mainStage,Food.CAKE);
-        new Food(1685,1700,mainStage,Food.HAMBURGER);
-
+        new Food(427,1630,mainStage);
+        new Food(920,2060,mainStage);
+        new Food(1030,1880,mainStage);
+        new Food(1900,630,mainStage);
+        
+        //usare questo food se lo si vuole far diventare un cuore
+        new Food(1685,1700,mainStage);
         player = new Player(900,Gdx.graphics.getHeight()-620,mainStage);
         player.setDirection(Player.IDLE);
         player.setAnimationPaused(true);
@@ -263,8 +263,7 @@ public class MainLevel extends BaseScreen{
     }
 
     @Override
-    public void update(float dt)
-    {
+    public void update(float dt) {
 
         for (BaseActor tree : BaseActor.getList(mainStage, "Tree"))
             player.preventOverlap(tree);
@@ -275,22 +274,40 @@ public class MainLevel extends BaseScreen{
         for (BaseActor cespuglio : BaseActor.getList(mainStage, "Cespuglio"))
             player.preventOverlap(cespuglio);
 
-        for (BaseActor catActor : BaseActor.getList(mainStage, "Cat")) {
-            Cat cat = (Cat) catActor;
-            player.preventOverlap(cat);
-            cat.setXPath(500);
-        }
-
         for (BaseActor dogActor : BaseActor.getList(mainStage, "Dog")) {
             Dog dog = (Dog) dogActor;
             player.preventOverlap(dog);
-            dog.setSquarePath(100,100,100);
+            if (dog.getX() == dog.getSpawnX() + 100 && dog.getY() == dog.getSpawnY()) {
+                dog.setWaypoint(dog.getX(), dog.getY());
+                dog.setDirection(Dog.BOTTOM);
+            } else if (dog.getX() == dog.getWaypointX() && dog.getY() == dog.getWaypointY() - 100) {
+                dog.setWaypoint(dog.getX(), dog.getY());
+                dog.setDirection(Dog.LEFT);
+            } else if (dog.getX() == dog.getWaypointX() - 100 && dog.getY() == dog.getWaypointY()) {
+                dog.setWaypoint(dog.getX(), dog.getY());
+                dog.setDirection(Dog.TOP);
+            } else if (dog.getX() == dog.getSpawnX() && dog.getY() == dog.getSpawnY()) {
+                dog.setWaypoint(dog.getX(), dog.getY());
+                dog.setDirection(Dog.RIGHT);
+            }
         }
 
         for (BaseActor horseActor : BaseActor.getList(mainStage, "Horse")) {
             Horse horse = (Horse) horseActor;
             player.preventOverlap(horse);
-            horse.setSquarePath(100,100,300);
+            if (horse.getX() == horse.getSpawnX() + 100 && horse.getY() == horse.getSpawnY()) {
+                horse.setWaypoint(horse.getX(), horse.getY());
+                horse.setDirection(Horse.BOTTOM);
+            } else if (horse.getX() == horse.getWaypointX() && horse.getY() == horse.getWaypointY() - 300) {
+                horse.setWaypoint(horse.getX(), horse.getY());
+                horse.setDirection(Horse.LEFT);
+            } else if (horse.getX() == horse.getWaypointX() - 100 && horse.getY() == horse.getWaypointY()) {
+                horse.setWaypoint(horse.getX(), horse.getY());
+                horse.setDirection(Horse.TOP);
+            } else if (horse.getX() == horse.getSpawnX() && horse.getY() == horse.getSpawnY()) {
+                horse.setWaypoint(horse.getX(), horse.getY());
+                horse.setDirection(Horse.RIGHT);
+            }
         }
 
         for (BaseActor foodActor : BaseActor.getList(mainStage, "Food")) {
@@ -300,43 +317,39 @@ public class MainLevel extends BaseScreen{
                 food.collect();
                 PickUp pickup = new PickUp(0, 0, mainStage);
                 pickup.centerAtActor(food);
-                //pickup.remove();
             }
         }
 
         for (BaseActor cinghialeActor : BaseActor.getList(mainStage, "Cinghiale")) {
             Cinghiale cinghiale = (Cinghiale) cinghialeActor;
-            if(cinghiale.getCount() == 0)
-                cinghiale.setSquarePath(150,200,200);
-            else if(cinghiale.getCount() == 1)
+            if (cinghiale.getCount() == 0)
+                cinghiale.setSquarePath(150, 200, 200);
+            else if (cinghiale.getCount() == 1)
                 cinghiale.setXPath(750);
-            else if(cinghiale.getCount() == 3)
-                cinghiale.setSquarePath(200,200,300);
-            else if(cinghiale.getCount() == 4)
+            else if (cinghiale.getCount() == 3)
+                cinghiale.setSquarePath(200, 200, 300);
+            else if (cinghiale.getCount() == 4)
                 cinghiale.setXPath(500);
 
             if (player.overlaps(cinghiale) || cinghiale.overlaps(player)) {
                 player.preventOverlap(cinghiale);
-                //cinghiale.preventOverlap(player);
+                cinghiale.preventOverlap(player);
 
-                if(player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.LEFT)) {
-                    Action moveBy = Actions.moveBy(-400,0,0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.RIGHT)) {
-                    Action moveBy = Actions.moveBy(400,0,0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.BOTTOM)) {
-                    Action moveBy = Actions.moveBy(0, -400, 0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.TOP)) {
-                    Action moveBy = Actions.moveBy(0,400,0.5f);
-                    player.hit(moveBy,uiStage);
+                if (player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.LEFT)) {
+                    Action moveBy = Actions.moveBy(-200, 0, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.RIGHT)) {
+                    Action moveBy = Actions.moveBy(200, 0, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.BOTTOM)) {
+                    Action moveBy = Actions.moveBy(0, -200, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && cinghiale.getDirection() == Cinghiale.TOP)) {
+                    Action moveBy = Actions.moveBy(0, 200, 0.5f);
+                    player.hit(moveBy);
                 }
 
-                if(hearts.size() > 0) {
+                if (hearts.size() > 0) {
                     Heart heart = hearts.get(hearts.size() - 1);
                     hearts.remove(heart);
                     heart.removeHeart();
@@ -346,36 +359,33 @@ public class MainLevel extends BaseScreen{
         }
 
         for (BaseActor bearActor : BaseActor.getList(mainStage, "Bear")) {
-           Bear bear = (Bear) bearActor;
-            if(bear.getCount() == 0)
+            Bear bear = (Bear) bearActor;
+            if (bear.getCount() == 0)
                 bear.setXPath(350);
-            else if(bear.getCount() == 1){
+            else if (bear.getCount() == 1) {
                 bear.setYPath(350);
             }
 
 
             if (player.overlaps(bear) || bear.overlaps(player)) {
                 player.preventOverlap(bear);
-                //bear.preventOverlap(player);
+                bear.preventOverlap(player);
 
-                if(player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.LEFT)) {
-                    Action moveBy = Actions.moveBy(-400,0,0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.RIGHT)) {
-                    Action moveBy = Actions.moveBy(400,0,0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.BOTTOM)) {
-                    Action moveBy = Actions.moveBy(0, -400, 0.5f);
-                    player.hit(moveBy,uiStage);
-                }
-                else if(player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.TOP)) {
-                    Action moveBy = Actions.moveBy(0,400,0.5f);
-                    player.hit(moveBy,uiStage);
+                if (player.getDirection() == Player.RIGHT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.LEFT)) {
+                    Action moveBy = Actions.moveBy(-200, 0, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.LEFT || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.RIGHT)) {
+                    Action moveBy = Actions.moveBy(200, 0, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.TOP || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.BOTTOM)) {
+                    Action moveBy = Actions.moveBy(0, -200, 0.5f);
+                    player.hit(moveBy);
+                } else if (player.getDirection() == Player.BOTTOM || (player.getDirection() == Player.IDLE && bear.getDirection() == Bear.TOP)) {
+                    Action moveBy = Actions.moveBy(0, 200, 0.5f);
+                    player.hit(moveBy);
                 }
 
-                if(hearts.size() > 0) {
+                if (hearts.size() > 0) {
                     Heart heart = hearts.get(hearts.size() - 1);
                     hearts.remove(heart);
                     heart.removeHeart();
@@ -393,6 +403,6 @@ public class MainLevel extends BaseScreen{
             win = true;
             GameManager.setActiveScreen(new GameOverScreen());
         }
-    }
 
+    }
 }
