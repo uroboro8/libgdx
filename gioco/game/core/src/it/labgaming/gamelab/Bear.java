@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Bear extends  BaseActor {
 
-    private int speed=4;
+    private int speed=3;
     private int direction;
 
     private int count;
@@ -15,12 +15,23 @@ public class Bear extends  BaseActor {
     String[] left = {"bear-left-1.png", "bear-left-2.png", "bear-left-3.png"};;
     String[] right = {"bear-right-1.png", "bear-right-2.png", "bear-right-3.png"};
     String[] bottom = {"bear-bottom-1.png", "bear-bottom-2.png", "bear-bottom-3.png"};;
-    Animation<TextureRegion> anim;
+
+    Animation<TextureRegion> animTop;
+    Animation<TextureRegion> animLeft;
+    Animation<TextureRegion> animRight;
+    Animation<TextureRegion> animBottom;
+
 
     public Bear(float x, float y, Stage s,int count) {
         super(x, y, s);
         this.count = count;
-        loadAnimationFromFiles(bottom, 0.1f, true);
+
+        animTop =  loadAnimationFromFiles(top, 0.1f, true);
+        animBottom =  loadAnimationFromFiles(bottom, 0.1f, true);
+        animRight =  loadAnimationFromFiles(right, 0.1f, true);
+        animLeft =  loadAnimationFromFiles(left, 0.1f, true);
+
+        setAnimation(animRight);
         setBoundaryPolygon(8);
         this.setDirection(0);
     }
@@ -43,25 +54,25 @@ public class Bear extends  BaseActor {
         super.act(dt);
 
         if(direction == Bear.RIGHT) {
-            anim = loadAnimationFromFiles(right, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(right, 0.1f, true);
+            setAnimation(animRight);
             this.moveBy(speed,0);
         }
         if(direction == Bear.BOTTOM) {
-            anim = loadAnimationFromFiles(bottom, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(bottom, 0.1f, true);
+            setAnimation(animBottom);
             this.moveBy(0,-speed);
 
         }
         if(direction == Bear.LEFT) {
-            anim = loadAnimationFromFiles(left, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(left, 0.1f, true);
+            setAnimation(animLeft);
             this.moveBy(-speed,0);
 
         }
         if(direction == Bear.TOP) {
-            anim = loadAnimationFromFiles(top, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(top, 0.1f, true);
+            setAnimation(animTop);
             this.moveBy(0,speed);
         }
     }

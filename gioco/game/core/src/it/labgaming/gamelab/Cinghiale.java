@@ -1,12 +1,13 @@
 package it.labgaming.gamelab;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Cinghiale extends  BaseActor {
 
-    private int speed=6;
+    private int speed=4;
     private int direction;
 
     private int count;
@@ -15,12 +16,22 @@ public class Cinghiale extends  BaseActor {
     String[] left = {"cinghiale-left-1.png", "cinghiale-left-2.png", "cinghiale-left-3.png"};;
     String[] right = {"cinghiale-right-1.png", "cinghiale-right-2.png", "cinghiale-right-3.png"};
     String[] bottom = {"cinghiale-bottom-1.png", "cinghiale-bottom-2.png", "cinghiale-bottom-3.png"};;
-    Animation<TextureRegion> anim;
+
+    Animation<TextureRegion> animTop;
+    Animation<TextureRegion> animLeft;
+    Animation<TextureRegion> animRight;
+    Animation<TextureRegion> animBottom;
 
     public Cinghiale(float x, float y, Stage s,int count) {
         super(x, y, s);
         this.count = count;
-        loadAnimationFromFiles(bottom, 0.1f, true);
+
+        animTop =  loadAnimationFromFiles(top, 0.1f, true);
+        animBottom =  loadAnimationFromFiles(bottom, 0.1f, true);
+        animRight =  loadAnimationFromFiles(right, 0.1f, true);
+        animLeft =  loadAnimationFromFiles(left, 0.1f, true);
+
+        setAnimation(animRight);
         setBoundaryPolygon(8);
         this.setDirection(0);
     }
@@ -43,25 +54,25 @@ public class Cinghiale extends  BaseActor {
         super.act(dt);
 
         if(direction == Cinghiale.RIGHT) {
-            anim = loadAnimationFromFiles(right, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(right, 0.1f, true);
+            setAnimation(animRight);
             this.moveBy(speed,0);
         }
         if(direction == Cinghiale.BOTTOM) {
-            anim = loadAnimationFromFiles(bottom, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(bottom, 0.1f, true);
+            setAnimation(animBottom);
             this.moveBy(0,-speed);
 
         }
         if(direction == Cinghiale.LEFT) {
-            anim = loadAnimationFromFiles(left, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(left, 0.1f, true);
+            setAnimation(animLeft);
             this.moveBy(-speed,0);
 
         }
         if(direction == Cinghiale.TOP) {
-            anim = loadAnimationFromFiles(top, 0.1f, true);
-            setAnimation(anim);
+            //anim = loadAnimationFromFiles(top, 0.1f, true);
+            setAnimation(animTop);
             this.moveBy(0,speed);
         }
     }
